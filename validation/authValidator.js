@@ -1,5 +1,5 @@
 
-const { signupSchema, loginSchema } = require("../validation/schemas");
+const { signupSchema, loginSchema } = require("./Schemas/authSchemas");
 const createError = require("http-errors")
 
 const validateSignupData = (req,res,next) => {
