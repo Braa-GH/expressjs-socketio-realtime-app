@@ -4,7 +4,7 @@ const { verify } = require("jsonwebtoken")
 module.exports = (socket, next) => {
     const token = socket.handshake.auth.token;
     if (!token){
-        return next(createError(403, "Token Required"));
+        return next(createError(401, "Token Required"));
     }else{
         const private_key = process.env.TOKEN_PRIVATE_KEY;
         verify(token, private_key,{}, (err) => {
