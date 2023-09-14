@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Socket.IO chat</title>
+    <style>
+        body { margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+
+        #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
+        #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
+        #input:focus { outline: none; }
+        #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
+
+        #messages { list-style-type: none; margin: 0; padding: 0; }
+        #messages > li { padding: 0.5rem 1rem; }
+        #messages > li:nth-child(odd) { background: #efefef; }
+    </style>
+</head>
+<body>
+<ul id="messages"></ul>
+<form id="form" action="">
+    <input id="input" autocomplete="off" /><button>Send</button>
+</form>
+
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<!--<script src="/socket.io/socket.io.js"></script>-->
+<script>
+    const socket = io();
+
+    const form = document.getElementById('form');
+    const input = document.getElementById('input');
+    const messages = document.getElementById('messages');
+
+    //if someone connected to the chat
+    socket.on('user-connected', (name) => {
+        const li = document.createElement('li');
+        li.textContent = name + 'is online..';
+        messages.appendChild(li)
+    })
+
+    //when msg received
+    socket.on('message', (msg) => {
+        const li = document.createElement('li');
+        li.textContent = msg.content;
+        messages.appendChild(li)
+    })
+
+    //when someone leaves
+    socket.on('user-leaves', (name) => {
+        const li = document.createElement('li');
+        li.textContent = name + ' leaved the chat';
+        messages.appendChild(li)
+    })
+
+    //when sending message
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (input.value){
+            const message = {content: input.value, user: 'Anas', time: new Date().toLocaleTimeString()}
+            socket.emit('message', message)
+            input.value = '';
+        }
+    })
+
+    //when user is typing
+    input.addEventListener('keydown', (e) => {
+        socket.emit('typing',"braa", input.value);
+    })
+
+    //when someone is typing
+    socket.on('user-typing', (name) => {
+        const li = document.createElement('li');
+        li.textContent = name + ' is typing...';
+        messages.appendChild(li)
+    })
+
+</script>
+</body>
+</html>
