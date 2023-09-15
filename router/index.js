@@ -1,5 +1,6 @@
 const authRouter = require("./auth");
 const chatRouter = require("./chat");
+const messageRouter = require("./message");
 
 module.exports = (app) => {
 
@@ -8,5 +9,7 @@ module.exports = (app) => {
     });
 
     app.use("/auth", authRouter);
-    app.use("/chat", chatRouter)
+    app.use("/chat", chatRouter);
+    app.use("/message", messageRouter);
+
 }
