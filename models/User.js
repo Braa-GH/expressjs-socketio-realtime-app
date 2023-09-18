@@ -1,4 +1,4 @@
-const db_connection = require("../configration/db");
+const db_connection = require("../configuration/db");
 const { hashSync, compareSync } = require("bcrypt")
 
 class User {

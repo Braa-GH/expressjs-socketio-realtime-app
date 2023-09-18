@@ -14,7 +14,13 @@ const createMsg = (req,res,next) => {
 }
 
 const getAllMessages = (req,res,next) => {
+    const { chatId } = req.params;
 
+    Message.getAll(chatId).then(result => {
+        return res.status(200).json(result);
+    }).catch(err => {
+        return next(createError(500));
+    })
 }
 
 module.exports = {

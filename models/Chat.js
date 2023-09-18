@@ -1,4 +1,4 @@
-const db_connection = require("../configration/db");
+const db_connection = require("../configuration/db");
 const {query} = require("express");
 
 module.exports = class Chat {

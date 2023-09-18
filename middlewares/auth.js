@@ -1,5 +1,6 @@
 const { verify } = require("jsonwebtoken");
 const createError = require("http-errors");
+const { readFileSync } = require("fs");
 
 module.exports = (req,res,next) => {
     try{
@@ -8,7 +9,7 @@ module.exports = (req,res,next) => {
             return next(createError(401, "token required!"))
         }
         const token = authHeader.split(' ')[1];
-        const private_key = process.env.TOKEN_PRIVATE_KEY;
+        const private_key = readFileSync("./configuration/private.key");
         verify(token, private_key, {}, (err, decode) => {
             if (err) return next(createError(401, "Invalid Token"));
 

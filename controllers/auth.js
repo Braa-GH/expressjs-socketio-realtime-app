@@ -1,6 +1,7 @@
 const { User } = require("../models");
 const createError = require('http-errors');
 const jwt = require("jsonwebtoken");
+const { readFileSync } = require("fs");
 
 const signup = (req,res,next) => {
     const userData = req.body;
@@ -29,7 +30,7 @@ const login = (req,res,next) => {
         if (err){
             return next(createError(500, err.message));
         }else{
-            const private_key = process.env.TOKEN_PRIVATE_KEY;
+            const private_key = readFileSync("./configuration/private.key");
             jwt.sign(verifiedUser, private_key,{}, (err, token) => {
                 if (err){
                     return next(createError(500, "failed to generate token!"))
