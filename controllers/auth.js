@@ -35,10 +35,9 @@ const login = (req,res,next) => {
                 if (err){
                     return next(createError(500, "failed to generate token!"))
                 }else{
-                    return res.status(200).json({status: true, token})
+                    return res.status(200).json({status: true, userId: verifiedUser.id, token})
                 }
             })
-
         }
     })
 }

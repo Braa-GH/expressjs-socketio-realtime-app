@@ -71,6 +71,26 @@ class User {
         })
     }
 
+    static getById(id){
+        return new Promise((resolve, reject) => {
+            db_connection((err,db) => {
+                if (err) reject(err);
+
+                db.query(`select * from User where id = ${id} limit 1`, (err, result) => {
+                    if (err) reject(err);
+
+                    if (result.length > 0){
+                        return resolve({status: true, user: result[0]});
+                    }else{
+                        return resolve({status: false});
+                    }
+                })
+            }).catch(err => {
+                reject(err);
+            })
+        })
+    }
+
 
 }
 

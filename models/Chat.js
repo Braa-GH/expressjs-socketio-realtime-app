@@ -60,6 +60,7 @@ module.exports = class Chat {
                 db.query(query, (err, result) => {
                     if (err) return reject(err);
 
+
                     return resolve({status: true, count: result.length, chats: result});
                 })
             })
